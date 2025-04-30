@@ -20,7 +20,6 @@ namespace QBert.GameObject
         private Color _leftColor;
         private Color _rightColor;
 
-        private Color[] _colorDetails;
         private Rectangle _topRectangle;
         private Rectangle _leftRectangle;
         private Rectangle _rightRectangle;
@@ -29,6 +28,8 @@ namespace QBert.GameObject
         private int _upRight;
         private int _downLeft;
         private int _downRight;
+
+        public bool Wrap { get; set; } = false;
 
         public int ActiveColorIndex
         {
@@ -65,12 +66,6 @@ namespace QBert.GameObject
             set { _rightColor = value; }
         }
 
-        public Color[] ColorDetails
-        {
-            get { return _colorDetails; }
-            private set { _colorDetails = value; }
-        }
-
         public List<Color> TopColor
         {
             get { return _topColor; }
@@ -99,16 +94,19 @@ namespace QBert.GameObject
             get { return _upLeft; }
             set { _upLeft = value; }
         }
+
         public int UpRight
         {
             get { return _upRight; }
             set { _upRight = value; }
         }
+
         public int DownLeft
         {
             get { return _downLeft; }
             set { _downLeft = value; }
         }
+
         public int DownRight
         {
             get { return _downRight; }
@@ -120,7 +118,14 @@ namespace QBert.GameObject
             get { return new Vector2(_topRectangle.X + _topRectangle.Width / 2, _topRectangle.Y + _topRectangle.Height / 2); }
         }
 
-        public Cube(Texture2D topTexture, Texture2D leftTexture, Texture2D rightTexture, List<Color> topColors, Color leftColor, Color rightColor, Point position)
+        public Cube(
+            Texture2D topTexture, 
+            Texture2D leftTexture, 
+            Texture2D rightTexture, 
+            List<Color> topColors, 
+            Color leftColor, 
+            Color rightColor, 
+            Point position)
         {
             _topTexture = topTexture;
             _leftTexture = leftTexture;
@@ -131,16 +136,34 @@ namespace QBert.GameObject
             _rightRectangle = new Rectangle(position.X + topTexture.Width / 2, position.Y + topTexture.Height / 2, rightTexture.Width, rightTexture.Height);
             _topColor = new List<Color>();
 
-            foreach (var c in topColors)
+            foreach (Color c in topColors)
             {
                 _topColor.Add(c);
             }
 
-            _colorDetails = new Color[_topTexture.Width * _topTexture.Height];
-            _topTexture.GetData<Color>(_colorDetails);
-
             _leftColor = leftColor;
             _rightColor = rightColor;
+        }
+
+        public void NextColor()
+        {
+            if (!Wrap)
+            {
+                if (_activeColorIndex < _topColor.Count - 1)
+                {
+                    _activeColorIndex++;
+                    Player.Score += 15;
+                }
+            }
+            else
+            {
+                Player.Score += 15;
+                _activeColorIndex = _activeColorIndex + 1;
+                if (_activeColorIndex == _topColor.Count)
+                {
+                    _activeColorIndex = 0;
+                }
+            }
         }
 
         public void Update(GameTime gameTime)

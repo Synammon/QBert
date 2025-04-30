@@ -1,0 +1,501 @@
+{
+  "LevelDefs": [
+    {
+      "Level": 1,
+      "Round": 1,
+      "TopColors": [
+        {
+          "B": 0,
+          "G": 0,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4278190335
+        },
+        {
+          "B": 255,
+          "G": 0,
+          "R": 0,
+          "A": 255,
+          "PackedValue": 4294901760
+        }
+      ],
+      "LeftColor": {
+        "B": 0,
+        "G": 255,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4278255615
+      },
+      "RightColor": {
+        "B": 128,
+        "G": 0,
+        "R": 128,
+        "A": 255,
+        "PackedValue": 4286578816
+      },
+      "WrapAround": false,
+      "Discs": [
+        10,
+        14
+      ]
+    },
+    {
+      "Level": 1,
+      "Round": 2,
+      "TopColors": [
+        {
+          "B": 255,
+          "G": 255,
+          "R": 0,
+          "A": 255,
+          "PackedValue": 4294967040
+        },
+        {
+          "B": 255,
+          "G": 0,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4294902015
+        }
+      ],
+      "LeftColor": {
+        "B": 128,
+        "G": 128,
+        "R": 128,
+        "A": 255,
+        "PackedValue": 4286611584
+      },
+      "RightColor": {
+        "B": 0,
+        "G": 165,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4278232575
+      },
+      "WrapAround": false,
+      "Discs": [
+        15,
+        20
+      ]
+    },
+    {
+      "Level": 1,
+      "Round": 3,
+      "TopColors": [
+        {
+          "B": 255,
+          "G": 255,
+          "R": 0,
+          "A": 255,
+          "PackedValue": 4294967040
+        },
+        {
+          "B": 220,
+          "G": 245,
+          "R": 245,
+          "A": 255,
+          "PackedValue": 4292670965
+        }
+      ],
+      "LeftColor": {
+        "B": 255,
+        "G": 248,
+        "R": 240,
+        "A": 255,
+        "PackedValue": 4294965488
+      },
+      "RightColor": {
+        "B": 219,
+        "G": 112,
+        "R": 147,
+        "A": 255,
+        "PackedValue": 4292571283
+      },
+      "WrapAround": false,
+      "Discs": [
+        21,
+        27
+      ]
+    },
+    {
+      "Level": 1,
+      "Round": 4,
+      "TopColors": [
+        {
+          "B": 230,
+          "G": 245,
+          "R": 253,
+          "A": 255,
+          "PackedValue": 4293326333
+        },
+        {
+          "B": 0,
+          "G": 0,
+          "R": 0,
+          "A": 255,
+          "PackedValue": 4278190080
+        }
+      ],
+      "LeftColor": {
+        "B": 169,
+        "G": 169,
+        "R": 169,
+        "A": 255,
+        "PackedValue": 4289309097
+      },
+      "RightColor": {
+        "B": 211,
+        "G": 211,
+        "R": 211,
+        "A": 255,
+        "PackedValue": 4292072403
+      },
+      "WrapAround": false,
+      "Discs": []
+    },
+    {
+      "Level": 2,
+      "Round": 1,
+      "TopColors": [
+        {
+          "B": 255,
+          "G": 255,
+          "R": 0,
+          "A": 255,
+          "PackedValue": 4294967040
+        },
+        {
+          "B": 255,
+          "G": 0,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4294902015
+        },
+        {
+          "B": 50,
+          "G": 205,
+          "R": 154,
+          "A": 255,
+          "PackedValue": 4281519514
+        }
+      ],
+      "LeftColor": {
+        "B": 208,
+        "G": 224,
+        "R": 64,
+        "A": 255,
+        "PackedValue": 4291878976
+      },
+      "RightColor": {
+        "B": 80,
+        "G": 127,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4283465727
+      },
+      "WrapAround": false,
+      "Discs": []
+    },
+    {
+      "Level": 2,
+      "Round": 2,
+      "TopColors": [
+        {
+          "B": 30,
+          "G": 105,
+          "R": 210,
+          "A": 255,
+          "PackedValue": 4280183250
+        },
+        {
+          "B": 135,
+          "G": 184,
+          "R": 222,
+          "A": 255,
+          "PackedValue": 4287084766
+        },
+        {
+          "B": 240,
+          "G": 255,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4293984255
+        }
+      ],
+      "LeftColor": {
+        "B": 130,
+        "G": 0,
+        "R": 75,
+        "A": 255,
+        "PackedValue": 4286709835
+      },
+      "RightColor": {
+        "B": 240,
+        "G": 255,
+        "R": 240,
+        "A": 255,
+        "PackedValue": 4293984240
+      },
+      "WrapAround": false,
+      "Discs": []
+    },
+    {
+      "Level": 2,
+      "Round": 3,
+      "TopColors": [
+        {
+          "B": 205,
+          "G": 250,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4291689215
+        },
+        {
+          "B": 185,
+          "G": 218,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4290370303
+        },
+        {
+          "B": 147,
+          "G": 112,
+          "R": 219,
+          "A": 255,
+          "PackedValue": 4287852763
+        }
+      ],
+      "LeftColor": {
+        "B": 128,
+        "G": 128,
+        "R": 128,
+        "A": 255,
+        "PackedValue": 4286611584
+      },
+      "RightColor": {
+        "B": 0,
+        "G": 165,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4278232575
+      },
+      "WrapAround": false,
+      "Discs": []
+    },
+    {
+      "Level": 2,
+      "Round": 4,
+      "TopColors": [
+        {
+          "B": 96,
+          "G": 164,
+          "R": 244,
+          "A": 255,
+          "PackedValue": 4284523764
+        },
+        {
+          "B": 87,
+          "G": 139,
+          "R": 46,
+          "A": 255,
+          "PackedValue": 4283927342
+        },
+        {
+          "B": 235,
+          "G": 206,
+          "R": 135,
+          "A": 255,
+          "PackedValue": 4293643911
+        }
+      ],
+      "LeftColor": {
+        "B": 45,
+        "G": 82,
+        "R": 160,
+        "A": 255,
+        "PackedValue": 4281160352
+      },
+      "RightColor": {
+        "B": 180,
+        "G": 130,
+        "R": 70,
+        "A": 255,
+        "PackedValue": 4290019910
+      },
+      "WrapAround": false,
+      "Discs": []
+    },
+    {
+      "Level": 3,
+      "Round": 1,
+      "TopColors": [
+        {
+          "B": 128,
+          "G": 128,
+          "R": 0,
+          "A": 255,
+          "PackedValue": 4286611456
+        },
+        {
+          "B": 71,
+          "G": 99,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4282868735
+        },
+        {
+          "B": 0,
+          "G": 128,
+          "R": 128,
+          "A": 255,
+          "PackedValue": 4278222976
+        }
+      ],
+      "LeftColor": {
+        "B": 128,
+        "G": 0,
+        "R": 0,
+        "A": 255,
+        "PackedValue": 4286578688
+      },
+      "RightColor": {
+        "B": 0,
+        "G": 165,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4278232575
+      },
+      "WrapAround": true,
+      "Discs": []
+    },
+    {
+      "Level": 3,
+      "Round": 2,
+      "TopColors": [
+        {
+          "B": 87,
+          "G": 139,
+          "R": 46,
+          "A": 255,
+          "PackedValue": 4283927342
+        },
+        {
+          "B": 135,
+          "G": 184,
+          "R": 222,
+          "A": 255,
+          "PackedValue": 4287084766
+        },
+        {
+          "B": 143,
+          "G": 143,
+          "R": 188,
+          "A": 255,
+          "PackedValue": 4287598524
+        }
+      ],
+      "LeftColor": {
+        "B": 238,
+        "G": 245,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4293850623
+      },
+      "RightColor": {
+        "B": 144,
+        "G": 128,
+        "R": 112,
+        "A": 255,
+        "PackedValue": 4287660144
+      },
+      "WrapAround": true,
+      "Discs": []
+    },
+    {
+      "Level": 3,
+      "Round": 3,
+      "TopColors": [
+        {
+          "B": 0,
+          "G": 69,
+          "R": 255,
+          "A": 255,
+          "PackedValue": 4278207999
+        },
+        {
+          "B": 35,
+          "G": 142,
+          "R": 107,
+          "A": 255,
+          "PackedValue": 4280520299
+        },
+        {
+          "B": 153,
+          "G": 136,
+          "R": 119,
+          "A": 255,
+          "PackedValue": 4288252023
+        }
+      ],
+      "LeftColor": {
+        "B": 34,
+        "G": 139,
+        "R": 34,
+        "A": 255,
+        "PackedValue": 4280453922
+      },
+      "RightColor": {
+        "B": 170,
+        "G": 178,
+        "R": 32,
+        "A": 255,
+        "PackedValue": 4289376800
+      },
+      "WrapAround": true,
+      "Discs": []
+    },
+    {
+      "Level": 3,
+      "Round": 4,
+      "TopColors": [
+        {
+          "B": 204,
+          "G": 209,
+          "R": 72,
+          "A": 255,
+          "PackedValue": 4291613000
+        },
+        {
+          "B": 112,
+          "G": 25,
+          "R": 25,
+          "A": 255,
+          "PackedValue": 4285536537
+        },
+        {
+          "B": 235,
+          "G": 206,
+          "R": 135,
+          "A": 255,
+          "PackedValue": 4293643911
+        }
+      ],
+      "LeftColor": {
+        "B": 225,
+        "G": 228,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4292994303
+      },
+      "RightColor": {
+        "B": 181,
+        "G": 228,
+        "R": 255,
+        "A": 255,
+        "PackedValue": 4290110719
+      },
+      "WrapAround": true,
+      "Discs": []
+    }
+  ]
+}

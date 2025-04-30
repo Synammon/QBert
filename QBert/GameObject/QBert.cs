@@ -25,30 +25,39 @@ namespace QBert.GameObject
         private Texture2D _rightDownTexture;
         private Texture2D _leftUpTexture;
         private Texture2D _rightUpTexture;
+        private Texture2D _texture;
         private SpriteBatch _spriteBatch;
-        private Vector2 _position;
         private Vector2 _origin;
         private float _distance;
         private Game _gameRef;
         private Vector2 _velocity;
+        private bool _onDisc = false;
         private bool _moving = false;
         private float _pixelsMoved = 0f;
         private bool _collided = false;
         private Pyramid _pyramid;
-        private Color[] _colorDetails;
+        private Player _player;
         private int _currentCubeIndex;
         Cube _nextCube;
         int _nextIndex;
+        private bool _pause;
+        private TimeSpan _pauseTimer;
 
         private KeyboardState KeyboardState { get; set; }
         private KeyboardState PreviousKeyboardState { get; set; }
 
         public Direction Direction { get; set; }
-        public Rectangle BoundingBox { get { return new Rectangle((int)_position.X, (int)_position.Y, 64, 64); } }
+        public Rectangle BoundingBox 
+        { 
+            get 
+            { 
+                return new Rectangle((int)Position.X, (int)Position.Y, 64, 64); 
+            } 
+        }
+
         public Vector2 Position
         {
             get { return new(_origin.X - 32, _origin.Y - 32); }
-            set { _position = value; }
         }
 
         public Vector2 Origin
@@ -62,6 +71,12 @@ namespace QBert.GameObject
             get { return _velocity; }
             set { _velocity = value; }
         }
+
+        public bool OnDisc
+        {
+            get { return _onDisc; }
+            set { _onDisc = value; }
+        }   
 
         public bool Moving
         {
@@ -85,6 +100,7 @@ namespace QBert.GameObject
         {
             _gameRef = game;
             _spriteBatch = spriteBatch;
+            Direction = Direction.RightDown;
         }
 
         public override void Initialize()
@@ -95,7 +111,13 @@ namespace QBert.GameObject
                 {
                     _pyramid = pyramid;
                 }
+
+                if (component is Player player)
+                {
+                    _player = player;
+                }
             }
+
             base.Initialize();
         }
 
@@ -105,24 +127,27 @@ namespace QBert.GameObject
             _rightDownTexture = Game.Content.Load<Texture2D>("QBertrightdown");
             _leftUpTexture = Game.Content.Load<Texture2D>("QBertupleft");
             _rightUpTexture = Game.Content.Load<Texture2D>("QBertupright");
+            _texture = _rightDownTexture;
         }
 
         public override void Update(GameTime gameTime)
         {
             PreviousKeyboardState = KeyboardState;
             KeyboardState = Keyboard.GetState();
+            _pauseTimer -= gameTime.ElapsedGameTime;    
 
-            if (!_moving)
+            if (!_moving && !_onDisc)
             {
                 _velocity = Vector2.Zero;
 
                 if (PreviousKeyboardState.IsKeyUp(Keys.C) && KeyboardState.IsKeyDown(Keys.C))
                 {
+                    _texture = _rightDownTexture;
                     Direction = Direction.RightDown;
                     _nextIndex = _pyramid.CubeList[_currentCubeIndex].DownRight;
                     if (_nextIndex != -1)
                     {
-                        _distance = Vector2.Distance(_origin, _pyramid.CubeList[_nextIndex].Origin);
+                        _distance = Vector2.Distance(_pyramid.CubeList[_currentCubeIndex].Origin, _pyramid.CubeList[_nextIndex].Origin);
                         _nextCube = _pyramid.CubeList[_nextIndex];
                         _velocity = Helpers.CalcDirection(Origin, _nextCube.Origin);
                         _moving = true;
@@ -135,15 +160,18 @@ namespace QBert.GameObject
                         Moving = false;
                         _pixelsMoved = 0;
                         _collided = false;
+                        Direction = Direction.LeftDown;
+                        Player.Lives--;
                     }
                 }
                 else if (PreviousKeyboardState.IsKeyUp(Keys.Z) && KeyboardState.IsKeyDown(Keys.Z))
                 {
+                    _texture = _leftDownTexture;
                     Direction = Direction.LeftDown;
                     _nextIndex = _pyramid.CubeList[_currentCubeIndex].DownLeft;
                     if (_nextIndex != -1)
                     {
-                        _distance = Vector2.Distance(_origin, _pyramid.CubeList[_nextIndex].Origin);
+                        _distance = Vector2.Distance(_pyramid.CubeList[_currentCubeIndex].Origin, _pyramid.CubeList[_nextIndex].Origin);
                         _nextCube = _pyramid.CubeList[_nextIndex];
                         _velocity = Helpers.CalcDirection(Origin, _nextCube.Origin);
                         _moving = true;
@@ -157,21 +185,32 @@ namespace QBert.GameObject
                         _pixelsMoved = 0;
                         _collided = false;
                         _currentCubeIndex = 0;
+                        Player.Lives--;
                     }
                 }
                 else if (PreviousKeyboardState.IsKeyUp(Keys.Q) && KeyboardState.IsKeyDown(Keys.Q))
                 {
+                    _texture = _leftUpTexture;
                     Direction = Direction.LeftUp;
                     _nextIndex = _pyramid.CubeList[_currentCubeIndex].UpLeft;
                     if (_nextIndex != -1)
                     {
-                        _distance = Vector2.Distance(_origin, _pyramid.CubeList[_nextIndex].Origin);
+                        _distance = Vector2.Distance(_pyramid.CubeList[_currentCubeIndex].Origin, _pyramid.CubeList[_nextIndex].Origin);
                         _nextCube = _pyramid.CubeList[_nextIndex];
                         _velocity = Helpers.CalcDirection(Origin, _nextCube.Origin);
                         _moving = true;
                         _pixelsMoved = 0;
                         _collided = false;
                         _currentCubeIndex = 0;
+                    }
+                    else if (_pyramid.DiscList.ContainsKey(_currentCubeIndex))
+                    {
+                        _distance = Vector2.Distance(_pyramid.CubeList[_currentCubeIndex].Origin, _pyramid.DiscList[_currentCubeIndex].Origin);
+                        _velocity = Helpers.CalcDirection(Origin, _pyramid.DiscList[_currentCubeIndex].Origin);
+                        _moving = true;
+                        _pixelsMoved = 0;
+                        _collided = false; 
+                        _pyramid.SetTarget(_currentCubeIndex);
                     }
                     else
                     {
@@ -180,20 +219,31 @@ namespace QBert.GameObject
                         _pixelsMoved = 0;
                         _collided = false;
                         _currentCubeIndex = 0;
+                        Player.Lives--;
                     }
                 }
                 else if (PreviousKeyboardState.IsKeyUp(Keys.E) && KeyboardState.IsKeyDown(Keys.E))
                 {
+                    _texture = _rightUpTexture;
                     Direction = Direction.RightUp;
                     _nextIndex = _pyramid.CubeList[_currentCubeIndex].UpRight;
                     if (_nextIndex != -1)
                     {
-                        _distance = Vector2.Distance(_origin, _pyramid.CubeList[_nextIndex].Origin);
+                        _distance = Vector2.Distance(_pyramid.CubeList[_currentCubeIndex].Origin, _pyramid.CubeList[_nextIndex].Origin);
                         _nextCube = _pyramid.CubeList[_nextIndex];
                         _velocity = Helpers.CalcDirection(Origin, _nextCube.Origin);
                         _moving = true;
                         _pixelsMoved = 0;
                         _collided = false;
+                    }
+                    else if (_pyramid.DiscList.ContainsKey(_currentCubeIndex))
+                    {
+                        _distance = Vector2.Distance(_pyramid.CubeList[_currentCubeIndex].Origin, _pyramid.DiscList[_currentCubeIndex].Origin);
+                        _velocity = Helpers.CalcDirection(Origin, _pyramid.DiscList[_currentCubeIndex].Origin);
+                        _moving = true;
+                        _pixelsMoved = 0;
+                        _collided = false;
+                        _pyramid.SetTarget(_currentCubeIndex);
                     }
                     else
                     {
@@ -202,14 +252,15 @@ namespace QBert.GameObject
                         _pixelsMoved = 0;
                         _collided = false;
                         _currentCubeIndex = 0;
+                        Player.Lives--;
                     }
                 }
             }
 
             if (_moving)
             {
-                SetOrigin(_origin + _velocity * 192 * (float)gameTime.ElapsedGameTime.TotalSeconds);
-                _pixelsMoved += Math.Abs(_velocity.Y) * 192 * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                SetOrigin(_origin + _velocity * 256 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                _pixelsMoved += 256 * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
                 if (_pixelsMoved > _distance && !_collided)
                 {
@@ -218,47 +269,109 @@ namespace QBert.GameObject
                     _velocity = Vector2.Zero;
                     _currentCubeIndex = _nextIndex;
                     _collided = true;
+                    _nextCube.NextColor();
+                }
+            }
 
-                    Texture2D texture = _leftDownTexture;
-
-                    switch (Direction)
+            foreach (var sprite in _pyramid.Sprites)
+            {
+                if (sprite.BoundingBox.Intersects(BoundingBox) && sprite is not GreenOrb && sprite is not Snake && sprite is not Faerie)
+                {
+                    Reset(sprite);
+                    Player.Lives--;
+                    break;
+                }
+                else if (sprite.BoundingBox.Intersects(BoundingBox) && sprite is GreenOrb)
+                {
+                    sprite.Enabled = false;
+                    sprite.Visible = false;
+                    _pyramid.Pause = true;
+                    _pyramid.PauseTimer = TimeSpan.FromSeconds(5f);
+                    Player.Score += 100;
+                    break;
+                }
+                else if (sprite.BoundingBox.Intersects(BoundingBox) && sprite is Faerie)
+                {
+                    sprite.Visible = false;
+                    Player.Score += 100;
+                    break;
+                }
+                else if (sprite.BoundingBox.Intersects(BoundingBox) && sprite is Snake)
+                {
+                    if ((sprite as Snake).CurrentCubeIndex == _currentCubeIndex)
                     {
-                        case Direction.RightDown:
-                            texture = _rightDownTexture;
-                            break;
-                        case Direction.LeftUp:
-                            texture = _leftUpTexture;
-                            break;
-                        case Direction.RightUp:
-                            texture = _rightUpTexture;
-                            break;
-                    }
-
-                    if (_nextCube.ActiveColorIndex < _nextCube.TopColor.Count - 1)
-                    {
-                        _nextCube.ActiveColorIndex++;
-                        _collided = true;
+                        Player.Lives--;
+                        Reset(sprite);
+                        break;
                     }
                 }
             }
-            base.Update(gameTime);
+
+            if (_pause)
+            {
+                foreach (var sprite in _pyramid.Sprites)
+                {
+                    sprite.Enabled = false;
+                }
+
+                if (_pauseTimer <= TimeSpan.Zero)
+                {
+                    _pause = false;
+                    _pauseTimer = TimeSpan.FromSeconds(5f);
+                    _pixelsMoved = 0;
+                    _currentCubeIndex = 0;
+                    foreach (var sprite in _pyramid.Sprites)
+                    {
+                        sprite.Enabled = true;
+                    }
+                }
+
+                base.Update(gameTime);
+            }
+        }
+
+        public void FallFromDisc()
+        {
+            _moving = false;
+            _onDisc = false;
+            _collided = false;
+            _pixelsMoved = 0;
+            SetOrigin(_pyramid.CubeList[0].Origin);
+            _currentCubeIndex = 0;
+            _pyramid.CubeList[0].NextColor();
+        }
+
+        public void Reset(Sprite sprite)
+        {
+            _collided = false;
+            _moving = false;
+            _onDisc = false;
+            SetOrigin(_pyramid.CubeList[0].Origin);
+            _pixelsMoved = 0;
+            _currentCubeIndex = 0;
+            if (sprite != null)
+            {
+                sprite.Enabled = false;
+                sprite.Visible = false;
+            }
         }
 
         public override void Draw(GameTime gameTime)
         {
+            Vector2 drawPosition = new(Position.X, Position.Y - 16);
             switch (Direction)
             {
                 case Direction.LeftDown:
-                    _spriteBatch.Draw(_leftDownTexture, BoundingBox, Color.White);
+                    _spriteBatch.Draw(_leftDownTexture, drawPosition, Color.White);
                     break;
                 case Direction.RightDown:
-                    _spriteBatch.Draw(_rightDownTexture, BoundingBox, Color.White);
+                    _spriteBatch.Draw(_rightDownTexture, drawPosition, Color.White);
                     break;
                 case Direction.LeftUp:
-                    _spriteBatch.Draw(_leftUpTexture, BoundingBox, Color.White);
+                    _spriteBatch.Draw(_leftUpTexture, drawPosition, Color.White);
                     break;
                 case Direction.RightUp:
-                    _spriteBatch.Draw(_rightUpTexture, BoundingBox, Color.White);
+                    _spriteBatch.Draw(_rightUpTexture, drawPosition, Color.White);
                     break;
             }
         }
@@ -266,7 +379,6 @@ namespace QBert.GameObject
         public void SetOrigin(Vector2 origin)
         {
             _origin = origin;
-            _position = new Vector2(_origin.X - 32, _origin.Y - 32);
         }
     }
 }

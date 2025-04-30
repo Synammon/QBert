@@ -67,5 +67,13 @@ namespace QBert
             direction.Normalize();
             return direction;
         }
+
+        public static Vector2 CalcDirection(Rectangle rectangle, Vector2 origin2)
+        {
+            Vector2 direction = new Vector2(rectangle.X, rectangle.Y) - origin2;
+
+            direction.Normalize();
+            return direction;
+        }
     }
 }
